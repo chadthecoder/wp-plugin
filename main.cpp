@@ -2,33 +2,37 @@
 #include <fstream>
 #include <string>
 #include <unistd.h>
-#include <sys/param.h>
 #include <direct.h>
 
-int main(int argc, char *argv[])
+int main()
 {
-    if(argc >= 2)
-    {
-        std::ofstream plugin;
-        std::string name = argv[1];
-        chdir("../");
-        _mkdir(name.c_str());
-        chdir(name.c_str());
-        plugin.open("index.php");
-        plugin  << "<?php\n"
-                << "/*\n" 
-                << " * Plugin Name: " << name.c_str() << std::endl;
-                if(argc == 3){ plugin << " * Description: " << std::string(argv[2]).c_str() << std::endl; }
-                plugin << " * Version: " << "1.0" << std::endl
-                << " * Author: " << "Chad McAdams" << std::endl
-                << " * Author URI: " << "https://www.mcadamschad.com" << std::endl
-                << " * Text Domain: " << name.c_str()
-                << "\n */\n?>";
-        plugin.close();
-    }
-    else
-    {
-        std::cout << "Please add one arguement for the name of the plugin./n";
-    }
+    std::string name = name, description, version, author, authorURI;
+
+    std::cout << "What should be the name of the plugin?" << std::endl;
+    std::cin >> name;
+    std::cout << "Give a short description of the plugin." << std::endl;
+    std::cin >> description;
+    std::cout << "What version is your plugin in?" << std::endl;
+    std::cin >> version;
+    std::cout << "Who is the author of this plugin?" << std::endl;
+    std::cin >> author;
+    std::cout << "What is the website for the plugin/author?" << std::endl;
+    std::cin >> authorURI;
     
+    std::ofstream plugin;
+    chdir("../");
+    _mkdir(name.c_str());
+    chdir(name.c_str());
+    plugin.open("index.php");
+    plugin  << "<?php" << std::endl
+            << "/*" << std::endl
+            << " * Plugin Name: " << name.c_str() << std::endl
+            << " * Description: " << description.c_str() << std::endl
+            << " * Version: " << version.c_str() << std::endl
+            << " * Author: " << author.c_str() << std::endl
+            << " * Author URI: " << authorURI.c_str() << std::endl
+            << " * Text Domain: " << name.c_str() << std::endl
+            << " */" << std::endl << "?>";
+    plugin.close();
+    return 0;
 }
